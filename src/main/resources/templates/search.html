@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Búsqueda</title>
+    <meta charset="utf-8" />		
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	  
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+		
+    <link rel="stylesheet" href="../static/css/comun.css" th:href="@{css/comun.css}" />	
+	<link rel="stylesheet" href="../static/css/search.css" th:href="@{css/search.css}" />
+	
+</head>
+
+<body>
+
+<div id="wrap">	
+<nav class="navbar  navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" th:href="@{/home}">Home</a>
+    </div>
+	
+	<div class="collapse navbar-collapse navbar-right" id="myNavbar">
+	  <form class="navbar-form navbar-left" role="search" th:action="@{/search}">
+        <div class="form-group input-group">
+          <input type="text" class="form-control" name="name" placeholder="Buscar pelicula" />      
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>  
+	    </div>
+	  </form>
+	  
+	  <!-- Logout -->
+	  <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span><span th:value="${nombre}"> Your Account</span></a></li>
+        <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+      </ul>
+	  
+	</div>
+  </div>
+</nav>
+
+
+
+<div class="container">
+  <h2 class="text-center">Resultado de la Búsqueda</h2>
+  <p class="text-center" th:text="${no_result}"></p>
+  <table class="table">
+    <tr th:each="film : ${listFilm}">
+	  <td>
+        <div class="row">
+          <h3 th:text="${film.getName()}">Nombre Pelicula 1 </h3>
+	      <div class="row">
+	        <div class="col-sm-3">
+		      <img th:src="${film.getUrlcover()}" class="img-responsive" alt="imagen" />
+		    </div>
+		    <div class="col-sm-9">
+	          <p><strong>Director:</strong> <span th:text="${film.getDirector()}">director</span></p> 
+	          <p><strong>Año:</strong> <span th:text="${film.getYear()}">year</span></p>
+	          <p><strong>Reparto:</strong> <span th:text="${film.getActors()}">reparto</span></p>
+		      <p><strong>Descripción:</strong> <span th:text="${film.getDescription()}">description</span></p>
+		      <p><strong>Valoración:</strong> <span th:text="${film.getValoration()}">valoration</span></p>
+	          <!-- <a th:href="@{/ver}" class="btn btn-info" role="button">Ver película</a> -->
+				<a th:href="@{/ver(id=${film.getId()})}" class="btn btn-info" role="button">Ver película</a>
+            </div>
+	      </div>	  
+        </div>
+      </td>  
+	</tr>
+	
+  </table> 
+</div>
+<br /><br />
+
+
+
+
+
+</div>
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+</body>
+
+</html>

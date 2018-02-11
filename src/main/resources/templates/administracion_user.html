@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Administrar usuario</title>
+  <meta charset="utf-8" />		
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+	  
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" />
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+          th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+          th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+		
+  <link rel="stylesheet" href="../static/css/comun.css" th:href="@{css/comun.css}" />
+  <link rel="stylesheet" href="../static/css/administracion_user.css" th:href="@{css/administracion_user.css}" />  
+  
+<script>
+$(document).ready(function(){
+    $("#create_text").click(function(){
+        $("#create_toggle").slideToggle();
+		if ($("#create_glyp").hasClass('glyphicon-triangle-bottom')) {
+		    $("#create_glyp").removeClass("glyphicon-triangle-bottom").addClass('glyphicon-triangle-top');
+        }
+        else if ($("#create_glyp").hasClass('glyphicon-triangle-top')) {
+            $("#create_glyp").removeClass("glyphicon-triangle-top").addClass('glyphicon-triangle-bottom');
+        }
+    });
+	$("#delete_text").click(function(){
+        $("#delete_toggle").slideToggle();
+		if ($("#delete_glyp").hasClass('glyphicon-triangle-bottom')) {
+		    $("#delete_glyp").removeClass("glyphicon-triangle-bottom").addClass('glyphicon-triangle-top');
+        }
+        else if ($("#delete_glyp").hasClass('glyphicon-triangle-top')) {
+            $("#delete_glyp").removeClass("glyphicon-triangle-top").addClass('glyphicon-triangle-bottom');
+        }	
+	
+	});
+	
+});
+</script>
+
+
+</head>
+
+<body>
+<div id="wrap">	
+<nav class="navbar  navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="home.html">Home</a>
+    </div>
+	
+	<div class="collapse navbar-collapse" id="myNavbar">	  
+	  <!-- Logout -->
+	  <ul class="nav navbar-nav navbar-right">
+	    <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Administracion</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span><span th:value="${nombre}"> Your Account</span></a></li>
+        <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+      </ul>
+	  
+	</div>
+  </div>
+</nav>
+
+<!-- Creacion Usuario -->
+<div class="container text-center" >
+  <div class="row" id="create_text">
+    <h3>Crear Usuario </h3>
+    <span id="create_glyp" class="glyphicon glyphicon-triangle-bottom"></span>
+  </div>
+  <div class="row well" id="create_toggle">
+    <form class="form-horizontal" role="form" method="post" th:action="@{/create_user}" >
+	  <div class="form-group">
+        <label class="control-label col-sm-2" for="usr">Nombre de usuario:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="username" id="username" placeholder="Usuario" />
+        </div>
+	  </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd">Contraseña:</label>
+		<div class="col-sm-8">
+          <input type="text" class="form-control" name="password" id="password" placeholder="contraseña" />
+        </div>
+	  </div>
+	  <div class="form-group">
+	    <label class="control-label col-sm-2" for="usr">Tipo:</label>
+	    <div class="col-sm-8">
+	      <div class="radio-inline">
+            <label><input type="radio" name="optradio" value="user" checked />USER</label>
+          </div>
+          <div class="radio-inline">
+            <label><input type="radio" name="optradio" value="admin" />ADMIN</label>
+          </div>
+	    </div>
+      </div>	  
+      <div class="form-group"> 
+        <div>	  
+          <button type="submit" class="btn btn-default">Crear Usuario</button>
+        </div>
+	  </div>	
+    </form> 	  
+  </div>  
+</div>
+
+<!-- Borrado Usuario -->
+<div class="container text-center">
+  <div class="row" id="delete_text">
+    <h3>Borrar Usuario</h3>
+    <span id="delete_glyp" class="glyphicon glyphicon-triangle-bottom"></span>
+  </div>  
+  <div class="row well" id="delete_toggle">
+    <form class="form-horizontal" role="form" method="post" th:action="@{/delete_user}" >
+	  <div class="form-group">
+        <label class="control-label col-sm-2" for="usr">Nombre de usuario:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="username" id="username" placeholder="Usuario" />
+        </div>
+	  </div>
+      <div class="form-group"> 
+        <div>	  
+          <button type="submit" class="btn btn-default">Borrar Usuario</button>
+        </div>
+	  </div>	  
+    </form> 
+  </div>
+</div>
+
+
+
+
+
+<!-- Modificacion Usuario -->
+<div class="container text-center">
+  <div class="row">
+  <h3>Modificar Usuario</h3>
+  <span class="glyphicon glyphicon-triangle-bottom"></span>
+  </div>
+</div>
+
+
+</div>
+</body>
+
+</html>

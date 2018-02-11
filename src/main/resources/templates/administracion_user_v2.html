@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Administrar usuario</title>
+  <meta charset="utf-8" />		
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+	  
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" />
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"
+          th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+          th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+		
+  <link rel="stylesheet" href="../static/css/comun.css" th:href="@{css/comun.css}" />
+
+  
+</head>
+
+<body>
+<div id="wrap">	
+<nav class="navbar  navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="home.html">Home</a>
+    </div>
+	
+	<div class="collapse navbar-collapse" id="myNavbar">	  
+	  <ul class="nav navbar-nav navbar-right">
+	    <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Administracion</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span><span th:value="${nombre}"> Your Account</span></a></li>
+        <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+      </ul>
+	  
+	</div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row text-center">
+    <h3>Crear Usuario </h3>
+  </div>
+  
+  <div th:if="${errorcreacion}" class="alert alert-danger">    
+    Invalid username.
+  </div>
+  
+  <div th:if="${biencreacion}" class="alert alert-success"> 
+    Usuario creado correctamente.
+  </div>
+  
+  <div class="row col-sm-offset-2">
+	<form class="form-horizontal" role="form" method="post" th:object="${new_user}" th:action="@{/admin/crear-usuario}" >
+	      
+	  <div class="form-group">
+        <label class="control-label col-sm-2" for="usr">Nombre de usuario:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" name="username" id="username" placeholder="Usuario" 
+          required="required" />
+        </div>
+	  </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd" >Contraseña:</label>
+		<div class="col-sm-8">
+          <input type="text" class="form-control" name="password" id="password" placeholder="contraseña" 
+          required="required"/>
+        </div>
+	  </div>
+	  <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd">Correo:</label>
+		<div class="col-sm-8">
+          <input type="email" class="form-control" name="correo" id="correo" placeholder="example@example.com" />
+        </div>
+	  </div>
+	  <div class="form-group">
+	    <label class="control-label col-sm-2" for="tipo">Tipo:</label>
+	    <div class="col-sm-8">
+	      <div class="radio-inline">
+            <label><input type="radio" name="roles" value="USER" checked="checked" />USER</label>
+          </div>
+          <div class="radio-inline">
+            <label><input type="radio" name="roles" value="ADMIN" />ADMIN</label>
+          </div>
+	    </div>
+      </div>	  
+      <div class="form-group"> 
+        <div>	  
+          <button type="submit" class="btn btn-default">Crear Usuario</button>
+        </div>
+	  </div>	
+    </form> 
+  </div>
+  </div>
+
+<div class="container">
+  <div th:if="${deletesuccess}" class="alert alert-success"> 
+    Usuario "<span th:if="${usuarioborrado}" th:text="${usuarioborrado}"></span>" borrado correctamente.
+  </div>
+  <form role="form" method="post" th:action="@{/admin/borrar-usuarios-seleccionados}" > 
+    <table class="table table-bordered">
+	  <thead>
+        <tr>
+	      <th>Username</th>
+	      <th>Correo</th>
+	      <th>Tipo</th>
+		  <th colspan="2" style="text-align:center">Accion</th>
+		  <th><input type="checkbox"  /></th>
+	    </tr>
+	  </thead>  
+	  <tbody>
+	    <tr th:each="user : ${userList}">
+	      <td th:text="${user.getUsername()}">admin</td>
+	      <td th:text="${user.getEmail()}">admin</td>
+	      <td th:text="${user.getRoles()}">ADMIN</td>
+		  <td><a th:href="@{/admin/modificar-usuario(user=${user})}">Editar</a></td>
+		  <td><a th:href="@{/admin/borrar-usuario(id=${user.getId()})}">Borrar</a></td>
+		  <td><input type="checkbox" name="id" th:value="${user.getId()}" /></td>
+	    </tr>
+	  </tbody>
+    </table>
+    <input type="submit" value="Borrar seleccionados" />
+  </form>  
+</div>
+
+
+</div>
+</body>
+
+</html>

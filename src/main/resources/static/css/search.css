@@ -1,0 +1,4 @@
+/* Para elimar los bordes de las tablas */
+.table th, .table td { 
+     border-top: none !important; 
+ }
